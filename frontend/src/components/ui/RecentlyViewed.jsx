@@ -27,13 +27,12 @@ function RecentlyViewed({ companies }) {
             `}
           </style>
 
-          <div className="hide-scrollbar flex gap-16">
-            {/* Render companies */}
+          <div className="hide-scrollbar flex gap-4 sm:gap-16">
             {companies.map((company) => (
               <Link
                 key={company._id}
                 to={`/companies/${company._id}`}
-                className="h-14 w-14 shrink-0"
+                className="h-12 w-12 shrink-0 sm:h-14 sm:w-14"
               >
                 <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-full border border-gray-200 shadow-md transition-transform duration-200 hover:scale-105">
                   <img
@@ -45,11 +44,10 @@ function RecentlyViewed({ companies }) {
               </Link>
             ))}
 
-            {/* Render placeholders to keep space constant */}
             {Array.from({ length: Math.max(placeholders, 0) }).map((_, idx) => (
               <div
                 key={idx}
-                className="h-16 w-16 shrink-0 rounded-full border border-gray-200 bg-gray-100"
+                className="h-12 w-12 shrink-0 rounded-full border border-gray-200 bg-gray-100 sm:h-16 sm:w-16"
               ></div>
             ))}
           </div>

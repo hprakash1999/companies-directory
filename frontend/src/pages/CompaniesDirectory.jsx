@@ -16,40 +16,37 @@ import SearchBar from "../components/ui/SearchBar";
 import { filterCompanies } from "../utils/filterCompanies";
 
 function CompaniesDirectory() {
-  const stored = JSON.parse(localStorage.getItem("recentlyViewed") || "[]"); // Get recently viewed companies
+  const stored = JSON.parse(localStorage.getItem("recentlyViewed") || "[]");
 
   const { state, dispatch } = useCompanies();
   const { companies, query } = state;
   const [recentlyViewed, setRecentlyViewed] = useState(stored);
 
-  // Get unique values
+  // Unique filters
   const locations = useUniqueValues(companies, "location");
   const industries = useUniqueValues(companies, "industry");
 
   // Debounce query
   const debouncedQuery = useDebounce(query, 500);
 
-  // Filter companies
   const filteredCompanies = useMemo(
     () => filterCompanies(companies, debouncedQuery),
     [companies, debouncedQuery],
   );
 
-  // Pagination: Infinite scroll
   const { visibleData: visibleCompanies, loading } = usePagination(filteredCompanies, 20, 20);
 
-  // View details handler
+  // Update recently viewed
   const handleCompanyView = (company) => {
-    const updated = [company, ...recentlyViewed.filter((c) => c._id !== company._id)].slice(0, 10); // keep last 10
-
+    const updated = [company, ...recentlyViewed.filter((c) => c._id !== company._id)].slice(0, 10);
     setRecentlyViewed(updated);
-    localStorage.setItem("recentlyViewed", JSON.stringify(updated)); // Store in local storage
+    localStorage.setItem("recentlyViewed", JSON.stringify(updated));
   };
 
   return (
-    <div className="p-6">
+    <div className="px-4 py-6 sm:px-6 lg:px-8">
       {/* Search Bar */}
-      <div className="mb-6">
+      <div className="mx-auto mb-6 max-w-full md:max-w-3xl">
         <SearchBar
           placeholder="Search by name, location, or industry…"
           query={query}
@@ -58,10 +55,14 @@ function CompaniesDirectory() {
           industries={industries}
         />
       </div>
-      <RecentlyViewed companies={recentlyViewed} />
+
+      {/* Recently Viewed */}
+      <div className="mb-6">
+        <RecentlyViewed companies={recentlyViewed} />
+      </div>
 
       {/* Company Cards */}
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
         {visibleCompanies.map((company) => (
           <CompanyCard key={company._id} company={company} onViewDetails={handleCompanyView} />
         ))}
