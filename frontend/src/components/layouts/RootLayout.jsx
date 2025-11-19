@@ -12,20 +12,21 @@ import { CompaniesProvider } from "../../context/CompaniesContext";
 function RootLayout() {
   return (
     <CompaniesProvider>
-      <div>
+      <div className="min-h-screen bg-gray-50">
+        {" "}
+        {/* subtle page background */}
         <Navbar />
-
-        {/* Main content */}
         <Suspense
           fallback={
-            <div className="flex h-screen w-full items-center justify-center">
+            <div className="flex min-h-[calc(100vh-64px)] items-center justify-center">
               <Loader />
             </div>
           }
         >
-          <Outlet />
+          <main className="mt-6 px-6">
+            <Outlet />
+          </main>
         </Suspense>
-
         <Footer />
       </div>
     </CompaniesProvider>

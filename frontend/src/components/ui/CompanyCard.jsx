@@ -4,8 +4,13 @@ import { Link } from "react-router-dom";
 // Components
 import Button from "./Button";
 
-function CompanyCard({ company }) {
+function CompanyCard({ company, onViewDetails }) {
   const { _id, name, logo, industry, location, employees, founded, website } = company;
+
+  // View details handler
+  const handleViewDetails = () => {
+    if (onViewDetails) onViewDetails(company);
+  };
 
   return (
     <div className="group hover:border-primary relative cursor-pointer rounded-2xl border border-gray-100 p-0.5 transition-all duration-300 hover:shadow-md">
@@ -74,7 +79,7 @@ function CompanyCard({ company }) {
         {/* View Details CTA */}
         <div className="mt-6 flex justify-end">
           <Link to={`/${_id}`}>
-            <Button size="sm" variant="primary">
+            <Button size="sm" variant="primary" onClick={handleViewDetails}>
               View Details →
             </Button>
           </Link>
