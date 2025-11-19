@@ -3,10 +3,12 @@ import { useMemo } from "react";
 // Hooks
 import { useCompanies } from "../hooks/useCompanies";
 import { useDebounce } from "../hooks/useDebounce";
+import { usePagination } from "../hooks/usePagination";
 import { useUniqueValues } from "../hooks/useUniqueValues";
 
 // Components
 import CompanyCard from "../components/ui/CompanyCard";
+import Loader from "../components/ui/Loader";
 import SearchBar from "../components/ui/SearchBar";
 
 // Utils
@@ -28,6 +30,8 @@ function CompaniesDirectory() {
     [companies, debouncedQuery],
   );
 
+  const { visibleData: visibleCompanies, loading } = usePagination(filteredCompanies, 20, 20);
+
   return (
     <div className="p-6">
       {/* Search Bar */}
@@ -42,13 +46,16 @@ function CompaniesDirectory() {
       </div>
 
       {/* Company Cards */}
-      {filteredCompanies.length === 0 ? (
-        <p className="text-center text-gray-600">No companies found matching your search.</p>
-      ) : (
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {filteredCompanies.map((company) => (
-            <CompanyCard key={company._id} company={company} />
-          ))}
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {visibleCompanies.map((company) => (
+          <CompanyCard key={company._id} company={company} />
+        ))}
+      </div>
+
+      {/* Loader at the bottom */}
+      {loading && (
+        <div className="mt-6 flex justify-center">
+          <Loader size="small" />
         </div>
       )}
     </div>
