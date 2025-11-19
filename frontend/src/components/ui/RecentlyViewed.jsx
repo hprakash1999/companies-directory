@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 
 function RecentlyViewed({ companies }) {
-  if (!companies) companies = [];
+  // if (!companies) companies = [];
+  if (!companies || companies.length === 0) return null;
 
   const totalSlots = 10; // Total number of slots
   const placeholders = totalSlots - companies.length;
@@ -45,10 +46,7 @@ function RecentlyViewed({ companies }) {
             ))}
 
             {Array.from({ length: Math.max(placeholders, 0) }).map((_, idx) => (
-              <div
-                key={idx}
-                className="h-12 w-12 shrink-0 rounded-full border border-gray-200 bg-gray-100 sm:h-16 sm:w-16"
-              ></div>
+              <div key={idx} className="h-12 w-12 shrink-0 rounded-full sm:h-16 sm:w-16"></div>
             ))}
           </div>
         </div>
