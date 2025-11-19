@@ -44,7 +44,7 @@ A React-based frontend application to browse, search, and filter a directory of 
 
 ## Demo
 
-Live Demo: `https://`
+Live Demo: `https://companies-directory-navy.vercel.app`
 
 ---
 
